@@ -4,21 +4,13 @@ const Realm = require('realm');
 const {Decimal128, ObjectId} = require('bson')
 let rnd = (n) => Math.floor(Math.random() * n) + 1
 
-const HouseSchema = {
-    name: 'House2',
-    // properties: {
-    //     doors: 'int',
-    //     name: 'string',
-    //     orientation: 'string',
-    //     boolean: 'bool',
-    //     faiil: 'mixed'
-    // },
-
+const Schema = {
+    name: 'Test',
     properties: {
         doors: 'int',
         name: 'string',
         orientation: 'string',
-        boolean: 'mixed',
+        boolean: 'bool',
         nullable: 'string?',
         faiil: 'string',
         decimal_128: 'decimal128',
@@ -26,22 +18,15 @@ const HouseSchema = {
     }
 }
 
-const SingleSchema = {
-    name: 'Single',
-    properties: {
-        name: 'mixed',
-    }
-}
-
-let running_test_2 =
+let running_test =
     async function() {
 
     console.log(`Using static types schema creating: ${SIZE}`)
 
-    let realm = await Realm.open({schema: [HouseSchema]})
+    let realm = await Realm.open({schema: [Schema]})
     realm.write(() => {
         for (let i = 0; i < SIZE; i++) {
-            realm.create('House2', {
+            realm.create(Schema.name, {
                 doors: 4,
                 name: `cesarvld-${rnd(1000)}`,
                 orientation: `south-${rnd(1000)}`,
@@ -55,30 +40,9 @@ let running_test_2 =
         }
     })
 
-    let h = realm.objects('House2')
+    let h = realm.objects(Schema.name)
     console.log('h.isEmpty ->', h.length)
-    console.log('h[0].name ->', h[0].name)
     process.exit(0)
-    return h
 }
 
-
-let running_test_1 =
-    async function() {
-    let realm = await Realm.open({schema: [SingleSchema]})
-
-    realm.write(() => realm.create('Single', {name: 'cesarvld'}))
-
-    let h = realm.objects('Single')
-    console.log('realm.objects ->', realm.objects)
-
-    console.log('h ->', h)
-    console.log('h.description ->', h.description())
-    console.log('h.isEmpty ->', h.isEmpty())
-
-    console.log('h[0].name ->', h[0].name)
-    return h
-}
-
-
-    module.exports = running_test_2()
+module.exports = running_test()
