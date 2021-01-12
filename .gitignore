@@ -1,3 +1,6 @@
+#remove realm files
+*.realm
+
 # Logs
 logs
 *.log
