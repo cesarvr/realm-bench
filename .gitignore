@@ -1,5 +1,6 @@
-#remove realm files
+# ignore realm files
 *.realm
+*.mx
 
 # Logs
 logs
